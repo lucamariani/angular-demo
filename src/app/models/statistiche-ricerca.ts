@@ -5,7 +5,7 @@ export class StatisticheRicerca {
      * @param diCuiUomini 
      * @param diCuiDonne 
      * @param diCuiAltri 
-     * @param totaliFatturati 
+     * @param totaliFiltrati 
      * @param totaliFatturatiDiCuiUomini 
      * @param totaliFatturatiDiCuiDonne 
      * @param totaliFatturatiDiCuiAltri 
@@ -15,7 +15,7 @@ export class StatisticheRicerca {
         public readonly diCuiUomini: Number,
         public readonly diCuiDonne: Number,
         public readonly diCuiAltri: Number,
-        public readonly totaliFatturati: Number,
+        public readonly totaliFiltrati: Number,
         public readonly totaliFatturatiDiCuiUomini: Number,
         public readonly totaliFatturatiDiCuiDonne: Number,
         public readonly totaliFatturatiDiCuiAltri: Number

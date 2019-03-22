@@ -1,9 +1,13 @@
+import { RicercaService } from 'src/app/services/ricerca.service';
+import { RicercaServiceFake } from 'src/app/services/ricerca.service.fake';
+
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  diRules: [ { provide: RicercaService, useClass: RicercaServiceFake} ]
 };
 
 /*

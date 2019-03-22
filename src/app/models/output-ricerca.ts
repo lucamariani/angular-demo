@@ -12,9 +12,9 @@ export class OutputRicerca {
      */
     constructor(
         public readonly persone: Persona[],
-        public readonly numPersoneFiltrate: Number,
-        public readonly page: Number,
-        public readonly pageLen: Number,
+        public readonly numPersoneFiltrate: number,
+        public readonly page: number,
+        public readonly pageLen: number,
         public readonly statistiche: StatisticheRicerca
     ) 
     {
