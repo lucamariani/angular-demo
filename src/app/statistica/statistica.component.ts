@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RicercaService } from '../services/ricerca.service';
 
 @Component({
   selector: 'app-statistica',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StatisticaComponent implements OnInit {
 
-  constructor() { }
+  constructor(private ricercaService: RicercaService) { }
 
   ngOnInit() {
   }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { faEdit,faTimes } from '@fortawesome/free-solid-svg-icons';
+import { RicercaService } from '../services/ricerca.service';
 
 @Component({
   selector: 'app-risultati-tabella',
@@ -9,7 +10,7 @@ import { faEdit,faTimes } from '@fortawesome/free-solid-svg-icons';
 export class RisultatiTabellaComponent implements OnInit {
   faEdit = faEdit;
   faTimes = faTimes;
-  constructor() { }
+  constructor(private ricercaService: RicercaService) { }
 
   ngOnInit() {
   }

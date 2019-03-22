@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RicercaService } from '../services/ricerca.service';
 
 @Component({
   selector: 'app-risultati-paginazione',
@@ -7,10 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RisultatiPaginazioneComponent implements OnInit {
 
-  page = "1";
-  constructor() { }
+  page : number = 1;
+  constructor(private ricercaService: RicercaService) { }
 
-  ngOnInit() {
+  ngOnInit() 
+  {
+  }
+
+  public pageChange(newPage: number) : void
+  {    
+    this.ricercaService.setNewPage(newPage);
   }
 
 }

@@ -4,5 +4,5 @@
         <fa-icon [icon]="faSearch"></fa-icon>
       </span>
     </div>
-    <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+    <input #box (keyup)="keyChange(box.value)" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
   </div>
