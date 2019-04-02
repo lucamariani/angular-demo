@@ -8,36 +8,28 @@
       <th scope="col">Action</th>
     </tr>
   </thead>
-  <tbody>
-    <tr>
-      <td>Mariani</td>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
+  <tbody *ngIf="!persone">
+      <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+  </tbody>
+  <tbody *ngIf="!!persone">
+    <tr *ngFor="let p of persone">
+      <td>{{ p.cognome }}</td>
+      <td>{{ p.nome }}</td>
+      <td>{{ p.eta }}</td>
+      <!-- <td>{{ p.sesso | sexToChar }}</td> -->
+      <td><app-sex [sesso] = "p.sesso"></app-sex></td>
       <td>
-        <fa-icon [icon]="faEdit"></fa-icon>
+          <a routerLink="/editPersona/{{ p.cognome }}{{ p.nome }}" routerLinkActive="active">
+            <fa-icon [icon]="faEdit"></fa-icon>
+          </a>        
         <fa-icon [icon]="faTimes"></fa-icon>
       </td>
-    </tr>
-    <tr>
-      <td>Mariani</td>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-      <td>
-        <fa-icon [icon]="faEdit"></fa-icon>
-        <fa-icon [icon]="faTimes"></fa-icon>
-      </td>
-    </tr>
-    <tr>
-      <td>Mariani</td>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-      <td>
-        <fa-icon [icon]="faEdit"></fa-icon>
-        <fa-icon [icon]="faTimes"></fa-icon>
-      </td>
-    </tr>
+    </tr>    
   </tbody>
 </table>

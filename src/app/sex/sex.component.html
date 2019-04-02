@@ -1,0 +1,9 @@
+<!-- <span *ngIf="s == 0" class="badge badge-info">Maschio</span>
+<span *ngIf="s == 1" class="badge badge-success">Femmina</span>
+<span *ngIf="s == 2" class="badge badge-warning">Altro</span> -->
+
+<span class="badge" [ngClass] = "{'badge-info': s == 0, 'badge-success': s == 1, 'badge-warning': s == 2}">
+  <span *ngIf="s == 0">Maschio</span>
+  <span *ngIf="s == 1">Femmina</span>
+  <span *ngIf="s == 2">Altro</span>
+</span>

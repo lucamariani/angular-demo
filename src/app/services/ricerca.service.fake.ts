@@ -5,15 +5,21 @@ import { Persona, Sesso } from '../models/persona';
 import * as faker from 'faker';
 import { StatisticheRicerca } from '../models/statistiche-ricerca';
 import { OutputRicerca } from '../models/output-ricerca';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
+import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RicercaServiceFake implements IRicercaService {  
+export class RicercaServiceFake implements IRicercaService {
+  private onSetNewKey$: Subject<string> = new Subject<string>();
   private inputRicerca: InputRicerca = new InputRicerca();
   private persone: Persona[] = [];
-  private statistiche$: Subject<StatisticheRicerca> = new Subject<StatisticheRicerca>();
+  // BehaviorSubject differs from Subjetc only because returns the value once a component subscribes 
+  // ( Subject returns the value only when next is called )
+  private statistiche$: Subject<StatisticheRicerca> = new BehaviorSubject<StatisticheRicerca>(null);
+  private filtro$: Subject<Persona[]> = new Subject<Persona[]>();
+  private filterChange$: Subject<OutputRicerca> = new Subject<OutputRicerca>();
 
   constructor() {    
     for(var i=0; i < 10000; i++) {
@@ -24,9 +30,18 @@ export class RicercaServiceFake implements IRicercaService {
         faker.random.number({min:18, max: 80}),
         gender
       ); 
-      this.persone.push(fakePerson);
+      this.persone.push(fakePerson);      
     }
     console.log('Persone array initialized...', this.persone);
+    setTimeout(() => this.doFilter(), 2000);
+    // in order to avoid too much firing searchs 
+    this.onSetNewKey$.pipe(
+      // wait msec
+      debounceTime(500),
+      // do not fire if same input value
+      distinctUntilChanged()
+    )
+    .subscribe(key => this._setNewKey(key));
    }
 
   setNewPage(newPage: number): void {
@@ -35,7 +50,11 @@ export class RicercaServiceFake implements IRicercaService {
     this.doFilter();
   }  
 
-  setNewKey(newKey: string): void {
+  public setNewKey(newKey: string): void {
+    this.onSetNewKey$.next(newKey);
+  }
+
+  private _setNewKey(newKey: string): void {
     console.log('Fake service | set new key ' + newKey);
     this.inputRicerca = this.inputRicerca.changeKey(newKey);
     this.doFilter();
@@ -47,8 +66,8 @@ export class RicercaServiceFake implements IRicercaService {
     const startIdx: number = (ir.page -1) * ir.pageLen;
     const endIdx: number = startIdx + ir.pageLen;
 
-    console.log('page: ', ir.page)
-    console.log('indexes: ', startIdx, endIdx)
+    // console.log('page: ', ir.page)
+    // console.log('indexes: ', startIdx, endIdx)
 
     let personeFiltrate = this.persone.filter( (p) => 
         !ir.key.trim() ||
@@ -59,7 +78,7 @@ export class RicercaServiceFake implements IRicercaService {
 
       let personeFiltrateSlice = personeFiltrate.slice(startIdx, endIdx);      
 
-      console.log('Filtrate: ', personeFiltrate)
+      // console.log('Filtrate: ', personeFiltrate)
 
       let statistiche = new StatisticheRicerca(
         this.persone.length,
@@ -74,7 +93,7 @@ export class RicercaServiceFake implements IRicercaService {
 
       let outputRicerca = new OutputRicerca(
         personeFiltrateSlice,
-        personeFiltrateSlice.length,
+        personeFiltrate.length,
         ir.page,
         ir.pageLen,
         statistiche
@@ -82,11 +101,20 @@ export class RicercaServiceFake implements IRicercaService {
 
       // notifica a tutti i subscribers che c'e' un nuovo output
       this.statistiche$.next(statistiche);
+      this.filtro$.next(outputRicerca.persone);
+      this.filterChange$.next(outputRicerca);
   }  
 
   onStatistiche(): Observable<StatisticheRicerca> {
     return this.statistiche$;
   }
 
+  onFiltro(): Observable<Persona[]> {
+    return this.filtro$;
+  }  
+
+  onFilterChange(): Observable<OutputRicerca> {
+    return this.filterChange$;
+  }
 }
 

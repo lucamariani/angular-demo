@@ -11,6 +11,12 @@ import { RisultatiPaginazioneComponent } from './risultati-paginazione/risultati
 import { RicercaServiceFake } from './services/ricerca.service.fake';
 import { RicercaService } from './services/ricerca.service';
 import { environment } from 'src/environments/environment';
+import { SexToCharPipe } from './sex-to-char.pipe';
+import { SexComponent } from './sex/sex.component';
+import { appRoutes } from './routes';
+import { RouterModule } from '@angular/router';
+import { PersoneIndexComponent } from './persone-index/persone-index.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 
 @NgModule({
@@ -19,12 +25,20 @@ import { environment } from 'src/environments/environment';
     RicercaComponent,
     StatisticaComponent,
     RisultatiTabellaComponent,
-    RisultatiPaginazioneComponent
+    RisultatiPaginazioneComponent,
+    SexToCharPipe,
+    SexComponent,
+    PersoneIndexComponent,
+    PageNotFoundComponent
   ],
   imports: [
     NgbModule,
     BrowserModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    RouterModule.forRoot(
+      appRoutes,
+      { enableTracing: false } // <-- debugging purposes only
+    )
   ],
   providers: environment.diRules,
   bootstrap: [AppComponent]

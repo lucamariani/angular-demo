@@ -8,6 +8,7 @@ import { StatisticheRicerca } from '../models/statistiche-ricerca';
   styleUrls: ['./statistica.component.css']
 })
 export class StatisticaComponent implements OnInit {
+  s: StatisticheRicerca;
 
   constructor(private ricercaService: RicercaService) { }
 
@@ -15,6 +16,7 @@ export class StatisticaComponent implements OnInit {
     this.ricercaService.onStatistiche().subscribe(
       (s: StatisticheRicerca) => {
         console.log('nuove statistiche ricevute', s);
+        this.s = s;
       }
     )
   }
